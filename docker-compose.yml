@@ -1,0 +1,43 @@
+services:
+  chat-service:
+    build: .
+    container_name: chat-service
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5433
+      - DB_USER=chat-service
+      - DB_PASSWORD=pastor-spiffy-librarian
+      - DB_NAME=chat-service
+    networks:
+      - chat-service-net
+
+  db:
+    image: pgvector/pgvector:pg16
+    container_name: db
+    environment:
+      POSTGRES_USER: chat-service
+      POSTGRES_PASSWORD: pastor-spiffy-librarian
+      POSTGRES_DB: chat-service
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U chat-service -d chat-service"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ./data/psql:/var/lib/postgresql/data
+    networks:
+      - chat-service-net
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+
+networks:
+  chat-service-net:
+    driver: bridge
+
+volumes:
+  db_data:

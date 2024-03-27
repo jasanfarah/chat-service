@@ -1,0 +1,8 @@
+[X] Create convo
+[X] Create message to convo 
+[X] Get all messages from a conversation
+[] Delete conversation
+
+
+Fix mismatch between:/id and the request body
+

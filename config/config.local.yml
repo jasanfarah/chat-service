@@ -1,0 +1,9 @@
+database:
+  host: localhost
+  user: chat-service
+  password: pastor-spiffy-librarian
+  DBName: chat-service
+  Port: 5432
+  SSLMode: disable
+api:
+  version: "v1"
